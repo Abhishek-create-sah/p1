@@ -1,0 +1,196 @@
+<style>
+  .navbar {
+    background-color: white !important;
+    height: auto; /* Allow expansion */
+    padding-bottom: 1.5rem;
+  }
+
+  /* Logo Styling */
+  .navbar-brand {
+    color: #ff385c !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Right Side User Menu */
+  .user-menu-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .host-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 20px;
+  }
+  .host-link:hover { 
+    background-color: #f7f7f7; 
+  }
+
+  .profile-dropdown-btn {
+    border: 1px solid #dddddd;
+    border-radius: 25px;
+    padding: 5px 5px 5px 12px;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  
+  .profile-dropdown-btn:hover {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+  }
+
+  /* --- THE SEARCH BAR (The Pill) --- */
+  .search-bar-container {
+    background: white;
+    border: 1px solid #dddddd;
+    border-radius: 40px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto; /* Center it */
+    padding: 0;
+    height: 50px;
+  }
+
+  .search-input-group {
+    flex: 1;
+    padding: 0 24px;
+    position: relative;
+    border-right: 1px solid #dddddd;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 40px; /* Hover shape */
+  }
+  
+  .search-input-group:hover {
+    background-color: #ebebeb;
+    border-right: 1px solid transparent; /* Hide border on hover */
+  }
+
+  .search-input-group:last-child {
+    border-right: none;
+    flex: 1.2; /* Slightly wider for the button area */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 10px;
+  }
+
+  .search-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: black;
+    margin: 0;
+  }
+
+  .search-input {
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: #717171;
+    padding: 0;
+    width: 100%;
+    outline: none;
+    text-overflow: ellipsis;
+  }
+
+  .btn-search-circle {
+    background-color: #ff385c;
+    color: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: background-color 0.2s;
+  }
+
+  .btn-search-circle:hover {
+    background-color: #f67e94ff;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .host-link { display: none; }
+    .search-bar-container { max-width: 100%; scale: 0.9; }
+  }
+</style>
+
+<nav class="navbar border-bottom ">
+  <div class="container-fluid px-4 px-md-5">
+    <div class="d-flex w-100 align-items-center justify-content-between mb-3">
+      
+      <a class="navbar-brand" href="/listings">
+        <i class="fa-regular fa-compass"></i> @venue
+      </a>
+      <% if(currentUser){ %>
+      <div class="w-70 d-flex justify-content-center">
+        <form action="/listings/search" method="post" class="search-bar-container">
+            <div class="search-input-group">
+                <label class="search-label">Where</label>
+                <input type="text" name="country" class="search-input" placeholder="Search destinations"
+            >
+            </div>
+
+            <div class="search-input-group">
+                <label class="search-label">When</label>
+                <input type="date" class="search-input" placeholder="Add dates" >
+            </div>
+
+            <button class="btn-search-circle" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+      </div>
+      <% } %>
+
+      <div class="user-menu-container">
+        <% if(currentUser){ %>
+          <a href="/listings/new" class="host-link d-none d-md-block">Add new venue</a>
+        <% } %>
+
+        <div class="dropdown">
+            <div class="profile-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+                <div class="ms-2">
+                    <i class="fa-solid fa-circle-user fa-lg" style="color: #717171;"></i>
+                </div>
+            </div>
+            
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="border-radius: 15px; padding: 10px 0;">
+                <% if(!currentUser){ %>
+                    <li><a class="dropdown-item fw-bold" href="/signup">Sign up</a></li>
+                    <li><a class="dropdown-item" href="/login">Log in</a></li>
+                <% } %>
+                
+                <% if(currentUser){ %>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                <% } %>
+                
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
