@@ -130,16 +130,30 @@ module.exports.destroyListing = async (req, res) => {
 
 module.exports.search = async (req, res) => {
     let { country } = req.body;
-    console.log(country);
     
     
-    const allListings = await Listing.find({ country:{ $regex: country, $options: "i" } });
-
-    if (allListings.length === 0) {
-        req.flash("error", `No venues found in "${country}"`);
+    if (!country || country.trim() === "") {
         return res.redirect("/listings");
     }
 
-    // Reuse the index.ejs to display the results
+    const query = country.trim();
+
+    
+    const allListings = await Listing.find({
+        $or: [
+            { country: { $regex: query, $options: "i" } },
+            { location: { $regex: query, $options: "i" } },
+            { title: { $regex: query, $options: "i" } } 
+        ]
+    });
+
+    
+    if (allListings.length === 0) {
+        req.flash("error", `No venues found matching "${query}"`);
+        return res.redirect("/listings");
+    }
+
+    
+  
     res.render("listings/index.ejs", { allListings });
 };

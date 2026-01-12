@@ -1,38 +1,30 @@
 <style>
   .navbar {
     background-color: white !important;
-    height: auto; /* Allow expansion */
-    padding-bottom: 1.5rem;
+    padding: 0.75rem 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
   }
 
-  /* Logo Styling */
   .navbar-brand {
     color: #ff385c !important;
-    font-weight: bold;
-    font-size: 1.5rem;
+    font-weight: 800;
+    font-size: 1.4rem;
     display: flex;
     align-items: center;
     gap: 5px;
   }
 
-  /* Right Side User Menu */
-  .user-menu-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
   .host-link {
     font-size: 0.9rem;
     font-weight: 600;
-    color: black;
+    color: #222222;
     text-decoration: none;
-    padding: 10px;
+    padding: 10px 15px;
     border-radius: 20px;
+    transition: background 0.2s;
   }
-  .host-link:hover { 
-    background-color: #f7f7f7; 
-  }
+  
+  .host-link:hover { background-color: #f7f7f7; }
 
   .profile-dropdown-btn {
     border: 1px solid #dddddd;
@@ -42,155 +34,143 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    cursor: pointer;
     transition: box-shadow 0.2s;
   }
   
-  .profile-dropdown-btn:hover {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.18);
-  }
+  .profile-dropdown-btn:hover { box-shadow: 0 2px 4px rgba(0,0,0,0.18); }
 
-  /* --- THE SEARCH BAR (The Pill) --- */
+  
+
   .search-bar-container {
     background: white;
     border: 1px solid #dddddd;
     border-radius: 40px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 850px;
-    margin: 0 auto; /* Center it */
-    padding: 0;
-    height: 50px;
+    max-width: 400px;
+    height: 48px;
+    margin: 10px auto;
+    cursor: pointer;
+    transition: box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1), border-color 0.2s;
   }
+
+  
+  .search-bar-container:hover {
+    border-color: #eecece;
+    box-shadow: 0 2px 4px rgba(234, 190, 190, 0.1), 0 6px 20px rgba(246, 216, 216, 0.15);
+  }
+
+
+
 
   .search-input-group {
     flex: 1;
-    padding: 0 24px;
-    position: relative;
-    border-right: 1px solid #dddddd;
-    height: 100%;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    cursor: pointer;
-    border-radius: 40px; /* Hover shape */
-  }
-  
-  .search-input-group:hover {
-    background-color: #ebebeb;
-    border-right: 1px solid transparent; /* Hide border on hover */
-  }
-
-  .search-input-group:last-child {
-    border-right: none;
-    flex: 1.2; /* Slightly wider for the button area */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding-right: 10px;
   }
 
   .search-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 800;
-    color: black;
-    margin: 0;
+    color: #222222;
+    margin-bottom: -2px;
   }
 
   .search-input {
     border: none;
     background: transparent;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #717171;
-    padding: 0;
-    width: 100%;
     outline: none;
-    text-overflow: ellipsis;
+    width: 100%;
   }
 
   .btn-search-circle {
     background-color: #ff385c;
     color: white;
     border: none;
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
+    margin-right: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
-    transition: background-color 0.2s;
+    font-size: 0.9rem;
   }
 
-  .btn-search-circle:hover {
-    background-color: #f67e94ff;
-  }
-
-  /* Responsive tweaks */
+  
   @media (max-width: 768px) {
-    .host-link { display: none; }
-    .search-bar-container { max-width: 100%; scale: 0.9; }
+    .navbar-brand span { display: none; } 
+    .search-bar-container {
+      order: 3; 
+      max-width: 100%;
+      margin-top: 15px;
+    }
+    .host-link-desktop { display: none !important; }
+  }
+
+  @media (min-width: 769px) {
+    .search-bar-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0;
+    }
+    .host-link-mobile { display: none !important; }
   }
 </style>
 
-<nav class="navbar border-bottom ">
-  <div class="container-fluid px-4 px-md-5">
-    <div class="d-flex w-100 align-items-center justify-content-between mb-3">
+<nav class="navbar border-bottom sticky-top">
+  <div class="container-fluid px-3 px-md-5">
+    <div class="d-flex w-100 align-items-center justify-content-between flex-wrap">
       
       <a class="navbar-brand" href="/listings">
-        <i class="fa-regular fa-compass"></i> @venue
+        <i class="fa-regular fa-compass"></i> <span>@venue</span>
       </a>
+
       <% if(currentUser){ %>
-      <div class="w-70 d-flex justify-content-center">
         <form action="/listings/search" method="post" class="search-bar-container">
-            <div class="search-input-group">
-                <label class="search-label">Where</label>
-                <input type="text" name="country" class="search-input" placeholder="Search destinations"
-            >
-            </div>
-
-            <div class="search-input-group">
-                <label class="search-label">When</label>
-                <input type="date" class="search-input" placeholder="Add dates" >
-            </div>
-
-            <button class="btn-search-circle" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+          <div class="search-input-group">
+            <label class="search-label">Where</label>
+            <input type="text" name="country" class="search-input" placeholder="Search destination">
+          </div>
+          <button class="btn-search-circle" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
         </form>
-      </div>
       <% } %>
 
-      <div class="user-menu-container">
+      <div class="user-menu-container d-flex align-items-center gap-2">
         <% if(currentUser){ %>
-          <a href="/listings/new" class="host-link d-none d-md-block">Add new venue</a>
+          <a href="/listings/new" class="host-link host-link-desktop d-none d-md-block">Add new venue</a>
         <% } %>
 
         <div class="dropdown">
-            <div class="profile-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-bars"></i>
-                <div class="ms-2">
-                    <i class="fa-solid fa-circle-user fa-lg" style="color: #717171;"></i>
-                </div>
+          <div class="profile-dropdown-btn" type="button" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-bars"></i>
+            <div class="ms-2">
+              <i class="fa-solid fa-circle-user fa-lg" style="color: #717171;"></i>
             </div>
-            
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="border-radius: 15px; padding: 10px 0;">
-                <% if(!currentUser){ %>
-                    <li><a class="dropdown-item fw-bold" href="/signup">Sign up</a></li>
-                    <li><a class="dropdown-item" href="/login">Log in</a></li>
-                <% } %>
-                
-                <% if(currentUser){ %>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/logout">Log out</a></li>
-                <% } %>
-                
-            </ul>
+          </div>
+          
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-3" style="border-radius: 12px; min-width: 200px;">
+            <% if(!currentUser){ %>
+              <li><a class="dropdown-item fw-bold" href="/signup">Sign up</a></li>
+              <li><a class="dropdown-item" href="/login">Log in</a></li>
+            <% } else { %>
+              <li><a class="dropdown-item host-link-mobile fw-bold" href="/listings/new">Add new venue</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/logout">Log out</a></li>
+            <% } %>
+          </ul>
         </div>
       </div>
+
     </div>
   </div>
 </nav>

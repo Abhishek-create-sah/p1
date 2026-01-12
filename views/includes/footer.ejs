@@ -1,17 +1,90 @@
+<style>
+  footer {
+    height: 8rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #dddddd;
+    margin-top: 2rem;
+  }
+
+  .f-info {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .f-info-socials {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 1.3rem;
+  }
+
+  .f-info-socials a {
+    color: #222222;
+    text-decoration: none;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .f-info-socials a:hover {
+    color: #fe8198;
+    transform: translateY(-3px); 
+  }
+
+  .f-info-brand {
+    font-size: 0.9rem;
+    color: #717171;
+  }
+
+  .f-info-links {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .f-info-links a {
+    color: #222222;
+    text-decoration: none;
+  }
+
+  .f-info-links a:hover {
+    text-decoration: underline;
+  }
+
+  
+  @media (max-width: 576px) {
+    footer {
+      height: auto;
+      padding: 2rem 0;
+    }
+  }
+</style>
+
 <footer>
   <div class="f-info">
     <div class="f-info-socials">
-      <i class="fa-brands fa-square-facebook"></i>
-      <i class="fa-brands fa-square-instagram"></i>
-      <i class="fa-brands fa-square-linkedin"></i>
-      
-
+      <a href="https://github.com/Abhishek-create-sah" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <a href="https://www.instagram.com/abhishek_sah203" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://linkedin.com/in/abhishek-kumar-sah" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-linkedin"></i>
+      </a>
     </div>
-    <div class="f-info-brand"> &copy;2026 &nbsp;  @venue Private Limited</div>
+
+    <div class="f-info-brand">
+      &copy; 2026 @venue Private Limited
+    </div>
+
     <div class="f-info-links">
       <a href="/privacy">Privacy</a>
-      <a href="/terms" class="offset-1">Terms</a>
+      <span>&middot;</span> <a href="/terms">Terms</a>
     </div>
-    
   </div>
 </footer>
